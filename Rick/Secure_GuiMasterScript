@@ -1,0 +1,209 @@
+script.Parent.Enabled = true
+
+if workspace.FilteringEnabled == true then
+	local Blur = Instance.new("BlurEffect",game.Workspace.CurrentCamera)
+	Blur.Name = "MenuBlur"
+	Blur.Size = 7
+end
+
+game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.All, false)
+game.Players.XLNS_XYZ.PlayerGui:SetTopbarTransparency(1)
+
+local TopBarSortashit = Instance.new("ScreenGui",script.Parent.Parent)
+local Frame = Instance.new("Frame",TopBarSortashit)
+Frame.BorderSizePixel = 0
+Frame.BackgroundTransparency = 0
+Frame.BackgroundColor3 = Color3.new(0,0,0)
+Frame.Size = UDim2.new(1,0,0.1,0)
+Frame.Position = UDim2.new(0,0,-0.1,0)
+
+local HClickSound = "rbxassetid://988035909"
+local SelectSound = "rbxassetid://988036165"
+
+local assets = {HClickSound,SelectSound}
+local ContentProvider = game:GetService("ContentProvider"):PreloadAsync(assets)
+-------
+local Selection = 0
+local frame = script.Parent.HoldingFrame.MiddleBar.MiddleButtons.SelectionFrame
+local x = 0.01
+local xoff = 3
+
+local Mode = 'Out'
+local Type = 'Quint'
+local Time = 0.3
+
+function Animate(NewSec)
+	local Sound = Instance.new("Sound",script.Parent)
+	Sound.SoundId = HClickSound
+	Sound.PlayOnRemove = true;
+	Sound:Destroy();
+	
+	frame:TweenSizeAndPosition(UDim2.new(0.007,0,0.01,0),UDim2.new(0.165+0.33*NewSec,xoff,-0.05,0),Mode,Type,Time,true)
+	wait(Time)
+	frame:TweenSize(UDim2.new(0.2,0,0.01,0),Mode,Type,Time,true)
+end
+
+script.Parent.HoldingFrame.MiddleBar.MiddleButtons:WaitForChild("ButtonTeam").MouseEnter:connect(function()
+	Animate(2)	 
+end)
+
+script.Parent.HoldingFrame.MiddleBar.MiddleButtons:WaitForChild("ButtonEnlist").MouseEnter:connect(function()
+	Animate(1)	 
+end)
+script.Parent.HoldingFrame.MiddleBar.MiddleButtons:WaitForChild("ButtonPlay").MouseEnter:connect(function()
+	Animate(0)	 
+end)
+
+-------------------------------------------------------------------------------------------
+
+
+function clickSound()
+	local Sound = Instance.new("Sound",script.Parent)
+	Sound.SoundId = SelectSound
+	Sound.PlayOnRemove = true;
+	Sound:Destroy();
+end
+local Mode = "NA"
+-----
+script.Parent.HoldingFrame.MiddleBar.MiddleButtons.ButtonEnlist.MouseButton1Click:Connect(function()
+	Mode = "Enlist"
+	clickSound() 
+	
+	for index, child in pairs(script.Parent.HoldingFrame.MiddleBar.MiddleButtons:GetChildren()) do
+   		if child:IsA("ImageButton") then
+		child.TextLabel.Visible = false
+		end
+	end
+	
+	script.Parent.HoldingFrame.MiddleBar:TweenPosition(UDim2.new(0.5,0,1.5,0),"In","Sine",1,true)
+	script.Parent.HoldingFrame.LogoBar:TweenPosition(UDim2.new(0.5,0,0.15,0),"InOut","Quint",1,true)
+	wait(1)
+	
+	script.Parent.HoldingFrame.EnlistInfo:TweenSize(UDim2.new(0.95,0,0.75,0),"InOut","Quint",0.5,true)
+	wait(0.4)
+	
+	for i = 1,0,-0.05 do
+		wait()
+		script.Parent.HoldingFrame.EnlistInfo.Title.TextTransparency = i		
+	end
+	
+	script.Parent.HoldingFrame.EnlistInfo.Title:TweenSize(UDim2.new(1,0,0.1,0),"InOut","Quad",1,true)
+	for i = 1,0,-0.05 do
+		script.Parent.HoldingFrame.EnlistInfo.Title.BackgroundTransparency = i
+		wait()
+	end
+	
+	
+	for i = 1,0,-0.05 do
+		
+		wait()
+		script.Parent.HoldingFrame.EnlistInfo.D1.TextTransparency = i		
+	end
+	
+	for i = 1,0,-0.05 do
+		wait()
+		script.Parent.HoldingFrame.EnlistInfo.D2.TextTransparency = i		
+	end
+	
+	local Text = "Once done, inform an officer you can be accepted, from there you will begin your regimental training which will result in your achieving an NCO rank (LCPL+)"
+	script.Parent.HoldingFrame.EnlistInfo.D3.TextTransparency = 0
+	for i = 1, #Text do
+		script.Parent.HoldingFrame.EnlistInfo.D3.Text = string.sub(Text, 1, i)
+		wait()	
+	end
+	
+	script.Parent.HoldingFrame.LogoBar.Return.Visible = true
+	
+	wait(0.5)
+	
+	
+end)
+------------------------------------------------------------------------------------------
+script.Parent.HoldingFrame.LogoBar.Return.MouseButton1Click:Connect(function()
+	clickSound() 
+	if Mode == "Enlist" then
+		script.Parent.HoldingFrame.LogoBar.Return.Visible = false
+		for i = 0,1.05,0.05 do
+		wait()
+		script.Parent.HoldingFrame.EnlistInfo.D3.TextTransparency = i
+		script.Parent.HoldingFrame.EnlistInfo.D2.TextTransparency = i		
+		script.Parent.HoldingFrame.EnlistInfo.D1.TextTransparency = i	
+		script.Parent.HoldingFrame.EnlistInfo.Title.TextTransparency = i	
+		script.Parent.HoldingFrame.EnlistInfo.Title.BackgroundTransparency = i	
+		end
+		script.Parent.HoldingFrame.EnlistInfo:TweenSize(UDim2.new(0.95,0,0,0),"InOut","Quint",0.5,true)
+		wait(0.5)
+		script.Parent.HoldingFrame.MiddleBar:TweenPosition(UDim2.new(0.5,0,0.5,0),"InOut","Quint",1,true);
+		script.Parent.HoldingFrame.LogoBar:TweenPosition(UDim2.new(0.5,0,0.3,0),"InOut","Quint",1,true)
+		
+		for index, child in pairs(script.Parent.HoldingFrame.MiddleBar.MiddleButtons:GetChildren()) do
+   			if child:IsA("ImageButton") then
+				child.TextLabel.Visible = true
+			end
+		end
+	end
+	if Mode == "Teams" then
+		script.Parent.HoldingFrame.LogoBar.Return.Visible = false
+		script.Parent.HoldingFrame.LogoBar.TeamFrame:TweenPosition(UDim2.new(0.4,0,-40,0),"InOut","Quad",1,true)
+		script.Parent.HoldingFrame.LogoBar.Logo:TweenPosition(UDim2.new(0.5,0,-0.3,0),"InOut","Quad",1,true)
+		wait(1)
+		script.Parent.HoldingFrame.MiddleBar:TweenPosition(UDim2.new(0.5,0,0.5,0),"InOut","Quint",1,true);
+		script.Parent.HoldingFrame.LogoBar:TweenPosition(UDim2.new(0.5,0,0.3,0),"InOut","Quint",1,true)
+		
+	end
+	
+end)
+------------------------------------------------------------------------------------------
+script.Parent.HoldingFrame.MiddleBar.MiddleButtons.ButtonTeam.MouseButton1Click:Connect(function()
+	clickSound()
+	Mode = "Teams"
+	script.Parent.HoldingFrame.MiddleBar:TweenPosition(UDim2.new(0.5,0,1.5,0),"InOut","Sine",1,true)
+	script.Parent.HoldingFrame.LogoBar:TweenPosition(UDim2.new(0.5,0,0.975,0),"InOut","Quint",2,true)
+	wait(1)
+	script.Parent.HoldingFrame.LogoBar.Logo:TweenPosition(UDim2.new(0.95,0,-0.3,0),"InOut","Quad",1,true)
+	script.Parent.HoldingFrame.LogoBar.TeamFrame:TweenPosition(UDim2.new(0.4,0,-17.5,0),"InOut","Quad",1,true)
+	script.Parent.HoldingFrame.LogoBar.Return.Visible = true
+end)
+------------------------------------------------------------------------------------------
+script.Parent.HoldingFrame.MiddleBar.MiddleButtons.ButtonPlay.MouseButton1Click:Connect(function()
+	clickSound()
+	script.Parent.HoldingFrame.MiddleBar:TweenPosition(UDim2.new(0.5,0,1.5,0),"In","Sine",1,true)
+	script.Parent.HoldingFrame.LogoBar:TweenPosition(UDim2.new(0.5,0,0.5,0),"InOut","Quint",1,true)
+	wait(1)
+	script.Parent.FrameClosing.LEFT:TweenPosition(UDim2.new(0,0,0,0),"InOut","Quad",1,true)
+	script.Parent.FrameClosing.RIGHT:TweenPosition(UDim2.new(1,0,0,0),"InOut","Quad",1,true)
+	wait(1)
+		for index, child in pairs(script.Parent.HoldingFrame.LogoBar:GetChildren()) do
+	   		if not (child.Name == "Logo")then
+			child:Destroy()
+			end
+		end
+	wait(1)
+	
+	script.Parent:WaitForChild("CutsceneScript"):Destroy()
+	repeat wait () until script.Parent:FindFirstChild("CutsceneScript") == nil
+	
+	game.Workspace.CurrentCamera.CameraType = "Custom"
+	game.Workspace.CurrentCamera.CameraSubject = game.Players.LocalPlayer.Character.Humanoid
+	game.Workspace.CurrentCamera.FieldOfView = 70
+	
+	script.Parent.FrameClosing.LEFT:TweenPosition(UDim2.new(-1,0,0,0),"InOut","Quad",1,true)
+	script.Parent.FrameClosing.RIGHT:TweenPosition(UDim2.new(2,0,0,0),"InOut","Quad",1,true)
+	wait(1)
+		
+	for i = 0.3,1.04,0.01 do 
+		wait()
+		script.Parent.HoldingFrame.LogoBar.Logo.ImageTransparency = i
+		script.Parent.HoldingFrame._GVig.ImageTransparency = i
+		script.Parent.HoldingFrame.BackgroundTransparency = i
+	end
+	wait()
+	------------------------------------------
+	game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.All, true)
+	game.Players.XLNS_XYZ.PlayerGui:SetTopbarTransparency(1)
+	if game.Workspace.CurrentCamera:FindFirstChild("MenuBlur") then
+		game.Workspace.CurrentCamera.MenuBlur:Destroy();
+	end	
+	
+	script.Parent:Destroy()	
+end)
