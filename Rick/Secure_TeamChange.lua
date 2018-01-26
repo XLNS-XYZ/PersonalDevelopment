@@ -9,8 +9,6 @@ local function onCreatePartFired(player,Team)
 	
 	if Reset then
 		player.Character.Humanoid.Health = 0	
-		wait()
-		player:LoadCharacter()
 	end
 	
 	player.Team = Team
