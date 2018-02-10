@@ -1,9 +1,11 @@
 local Players = game:GetService("Players")
 function onPlayerAdded(player)
-	while not(player.Character) do wait(); end
+	print"1"
+	while not(player.Character) do wait();print"2" end
 	
 	local function Interaction(touchedObject,bodyPart)
 		if (touchedObject:IsA("BasePart")) and (touchedObject:FindFirstChild("Tag")) then
+			print"3"
 			player.Character.Torso:FindFirstChild("roblox").Texture = touchedObject.Tag.Texture
 		end
 	end
