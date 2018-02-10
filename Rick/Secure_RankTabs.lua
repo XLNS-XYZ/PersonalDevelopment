@@ -13,6 +13,7 @@ function onPlayerAdded(player)
 end
  
 game.Players.PlayerAdded:connect(function(player)
+	print("Tag module loaded for "..player.Name)
 	player.CharacterAdded:connect(onPlayerAdded(player))
 end)
 
