@@ -13,8 +13,9 @@ function onPlayerAdded(player)
      print(player.Name .. " has entered the game")
 end
  
-Players.PlayerAdded:connect(onPlayerAdded)
- 
+ game.Players.PlayerAdded:connect(function(player)
+	player.CharacterAdded:connect(onPlayerAdded)
+ end)
 --Call onPlayerAdded for each player already in the game
 for _,player in pairs(Players:GetPlayers()) do
      onPlayerAdded(player)
