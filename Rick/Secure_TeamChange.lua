@@ -3,9 +3,11 @@ local Event = Instance.new("RemoteEvent", ReplicatedStorage)
 Event.Name = "TeamPlayer"
 
 local Reset = true
- 
+ 	
 local function onCreatePartFired(player,Team)
-	print ("Teamed "..(player.Name).." into "..Team.Name)
+	print ("Teamed "..(player.Name).." into "..Team.Name.. " successfully.")
+	
+	player.Team = Team
 	
 	if Reset then
 		player.Character.Humanoid.Health = 0	
@@ -13,7 +15,7 @@ local function onCreatePartFired(player,Team)
 		player:LoadCharacter()
 	end
 	
-	player.Team = Team
+	
 end
  
 Event.OnServerEvent:Connect(onCreatePartFired)
